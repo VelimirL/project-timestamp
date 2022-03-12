@@ -13,7 +13,7 @@ app.get('/', routes.homePage);
 
 app.get('/api/hello', routes.sayHello);
 
-app.get('/api/:date', routes.getDates);
+app.get('/api/:date?', routes.getDates);
 
 app.listen(3000);
 

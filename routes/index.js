@@ -1,7 +1,4 @@
-const express = require('express');
 const path = require('path');
-
-const router = express.Router();
 
 exports.homePage = (req, res) => {
   const pathFile = path.join(__dirname, '../views/index.html');
@@ -13,5 +10,26 @@ exports.sayHello = (req, res) => {
 };
 
 exports.getDates = (req, res) => {
-  res.json({ prelim: req.params.date });
+  const dateSent = req.params.date;
+  const invalid = 'Invalid Date';
+
+  if (!dateSent) {
+    res.json(
+      {
+        unix: new Date().getTime(),
+        utc: new Date().toUTCString(),
+      },
+    );
+  }
+
+  if (new Date(dateSent) == invalid && new Date(+dateSent) == invalid) {
+    res.json({ error: 'Invalid Date' });
+  }
+
+  const finalReturn = new Date(dateSent) == invalid ? new Date(+dateSent) : new Date(dateSent);
+
+  res.json({
+    unix: finalReturn.getTime(),
+    utc: finalReturn.toUTCString(),
+  });
 };
