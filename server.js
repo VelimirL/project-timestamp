@@ -1,4 +1,5 @@
 const express = require('express');
+const routes = require('./routes/index');
 
 const app = express();
 
@@ -8,12 +9,12 @@ app.use(cors({ optionsSuccessStatus: 200 }));
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/views/index.html`);
-});
+app.get('/', routes.homePage);
 
-app.get('/api/hello', (req, res) => {
-  res.json({ greeting: 'hello API' });
-});
+app.get('/api/hello', routes.sayHello);
 
-const listener = app.listen(3000);
+app.get('/api/:date', routes.getDates);
+
+app.listen(3000);
+
+module.exports = app;
